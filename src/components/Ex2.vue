@@ -21,6 +21,10 @@ function reset() {
     scoreB.value = 0;
 }
 
+const total = computed(() => scoreA.value + scoreB.value)
+const pointsLeftA = computed(() => maxScore.value - scoreA.value)
+const pointsLeftB = computed(() => maxScore.value - scoreB.value)
+
 const status = computed(() => {
     if (scoreA.value === maxScore.value && scoreB.value === maxScore.value) {
         return `${teamA.value} and ${teamB.value} are tied!`
@@ -40,6 +44,10 @@ const status = computed(() => {
         <p><strong>{{ teamA }}</strong> vs <strong>{{ teamB }}</strong></p>
 
         <p>Current: {{ scoreA }} - {{ scoreB }}</p>
+
+        <p>Total: {{ total }}</p>
+        <p>{{ teamA }} points left: {{ pointsLeftA }}</p>
+        <p>{{ teamB }} points left: {{ pointsLeftB }}</p>
 
         <div style="display: flex; gap: 12px; margin: 12px 0;">
             <button @click="addA">+ Team A</button>
