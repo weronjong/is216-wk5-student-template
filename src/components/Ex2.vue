@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const teamA = ref("Falcons")
 const teamB = ref("Tigers")
@@ -21,6 +21,15 @@ function reset() {
     scoreB.value = 0;
 }
 
+const status = computed(() => {
+    if (scoreA.value === maxScore.value && scoreB.value === maxScore.value) {
+        return `${teamA.value} and ${teamB.value} are tied!`
+    }
+    if (scoreA.value === maxScore.value) return `${teamA.value} wins!`
+    if (scoreB.value === maxScore.value) return `${teamB.value} wins!`
+    return 'Game in progress...'
+})
+
 </script>
 
 <template>
@@ -32,18 +41,15 @@ function reset() {
 
         <p>Current: {{ scoreA }} - {{ scoreB }}</p>
 
-        <!-- B. In-template expressions go here -->
-
-        <!-- A. Event handlers go here -->
         <div style="display: flex; gap: 12px; margin: 12px 0;">
-            <button>+ Team A</button>
-            <button>+ Team B</button>
-            <button>Reset</button>
+            <button @click="addA">+ Team A</button>
+            <button @click="addB">+ Team B</button>
+            <button @click="reset">Reset</button>
         </div>
 
 
         <div style="margin-top: 14px;">
-            <!-- C. Display winner / status here -->
+            <strong>{{ status }}</strong>
         </div>
 
 
