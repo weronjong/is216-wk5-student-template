@@ -21,19 +21,6 @@ function reset() {
     scoreB.value = 0;
 }
 
-const total = computed(() => scoreA.value + scoreB.value)
-const pointsLeftA = computed(() => maxScore.value - scoreA.value)
-const pointsLeftB = computed(() => maxScore.value - scoreB.value)
-
-const status = computed(() => {
-    if (scoreA.value === maxScore.value && scoreB.value === maxScore.value) {
-        return `${teamA.value} and ${teamB.value} are tied!`
-    }
-    if (scoreA.value === maxScore.value) return `${teamA.value} wins!`
-    if (scoreB.value === maxScore.value) return `${teamB.value} wins!`
-    return 'Game in progress...'
-})
-
 </script>
 
 <template>
@@ -45,9 +32,8 @@ const status = computed(() => {
 
         <p>Current: {{ scoreA }} - {{ scoreB }}</p>
 
-        <p>Total: {{ total }}</p>
-        <p>{{ teamA }} points left: {{ pointsLeftA }}</p>
-        <p>{{ teamB }} points left: {{ pointsLeftB }}</p>
+        <p>Total points: {{ scoreA + scoreB }}</p>
+        <p>Points left to win: {{ maxScore - Math.max(scoreA, scoreB) }}</p>
 
         <div style="display: flex; gap: 12px; margin: 12px 0;">
             <button @click="addA">+ Team A</button>
@@ -57,7 +43,9 @@ const status = computed(() => {
 
 
         <div style="margin-top: 14px;">
-            <strong>{{ status }}</strong>
+            <p v-if="scoreA === maxScore">Winner: {{ teamA.toUpperCase() }}</p>
+            <p v-else-if="scoreB === maxScore">Winner: {{ teamB.toUpperCase() }}</p>
+            <p v-else>No winner yet. Keep playing!</p>
         </div>
 
 
